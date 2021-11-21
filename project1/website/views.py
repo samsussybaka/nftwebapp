@@ -8,9 +8,9 @@ from . import db
 import os
 
 views = Blueprint("views", __name__)
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-#UPLOAD_FOLDER = './upload_folder'
-#ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg'])
+UPLOAD_FOLDER = './upload_folder'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg'])
 
 @views.route("/")
 @views.route("/home")
