@@ -3,29 +3,35 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
 from .models import Item, User
+from .__init__ import app
 from . import db
+import os
 
 views = Blueprint("views", __name__)
-
+#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#UPLOAD_FOLDER = './upload_folder'
+#ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg'])
 
 @views.route("/")
 @views.route("/home")
 @login_required
 def home():
-	offers = Item.query.all()
-	return render_template("home.html", user=current_user, offers=offers)
+	return render_template("home.html", user=current_user)
 
 @views.route("/sell", methods=['GET','POST'])
 @login_required
 def create_offer():
 	if request.method == "POST":
-		text = request.form.get('text')
-		if not text:
-			flash('Post created', category='success')
-		else:
-			offer = Item(text=text, seller=current_user.id)
-			db.session.add(offer)
-			db.session.commit()
-			flash('Made Offer', category='success')
-			return redirect(url_for('views.home'))
+		if 'file1' not in request.files:
+			return 'theres no files uploaded'
+
+		file1 = request.files['file1']
+		path = os.path.join(app.config['UPLOAD_FOLDER'], file1.filename)
+		return path
+
+
 	return render_template("sell.html", user=current_user)
+
+
+
+
