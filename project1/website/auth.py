@@ -33,9 +33,11 @@ def login():
 @auth.route("/sign_up", methods=['GET', 'POST'])
 def sign_up():
 	if request.method == "POST":
+		username = request.form.get("username")
 		email = request.form.get("email")
 		password = request.form.get("password")
 		password2 = request.form.get("password2")
+
 
 		user_exists = User.query.filter_by(email=email).first()
 		if user_exists:
@@ -49,7 +51,7 @@ def sign_up():
 		#elif len(password) < 4:
 			#flash('please make a longer password', category='error')
 		else:
-			new_user = User(email=email, password=generate_password_hash(password, method='sha256'))
+			new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
 			db.session.add(new_user)
 			db.session.commit()
 			login_user(new_user, remember=True)
