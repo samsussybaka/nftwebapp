@@ -30,7 +30,7 @@ def login():
 	return render_template("login.html", user=current_user)
 
 
-@auth.route("/sign-up", methods=['GET', 'POST'])
+@auth.route("/sign_up", methods=['GET', 'POST'])
 def sign_up():
 	if request.method == "POST":
 		username = request.form.get("username")
